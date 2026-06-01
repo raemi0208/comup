@@ -31,10 +31,10 @@
 - Data Source: 외교부 국가/지역별 여행 경보, 외교부_최신안전 소식 API 활용
 
 **4. 인프라**
-Frontend: Vercel
-Backend: AWS EC2
-Database: AWS RDS
-Domain, DNS: Route 53 / 가비아
+- Frontend: React
+- Backend: AWS EC2
+- Database: DBeaver, Supabase
+- Domain, DNS: Route 53 / 가비아
 
 **5. 개발 로드맵 (10주)**
 ```
