@@ -51,7 +51,7 @@ Q1. Cannot find module 'express' 에러가 나요.
 
 Q2. Access denied for user 'travel_admin'@'localhost' (DB 연결 실패)
 
-원인: 다빈 님의 로컬 DB 설정과 팀원의 환경이 다르기 때문입니다.
+원인: DB 담당자의 로컬 DB 설정과 팀원의 환경이 다르기 때문입니다.
 
 해결: server.js의 mysql.createConnection 부분에서 **user, password, port**를 본인의 MySQL 설정에 맞게 수정해야 합니다.
 
