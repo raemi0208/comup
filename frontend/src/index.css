@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: block; /* 핵심: flex가 아닌 block으로 설정 */
+}
+
+#root {
+  width: 100%;
+}
