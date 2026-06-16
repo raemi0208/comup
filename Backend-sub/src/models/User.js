@@ -2,6 +2,27 @@
 □ User.js: User 모델 설계도
 */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ *         nickname:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ */
+
 const { DataTypes } = require('sequelize');
 
 // 유저 관리: 이메일, 비밀번호, 닉네임

@@ -2,6 +2,7 @@
 □ SafetyService.js: 외교부 API에서 데이터를 가져와서 DB에 저장
 */ 
 
+
 const axios = require('axios'); // 외부 서버(외교부)와 통신하기 위한 도구
 const xml2js = require('xml2js'); // 외교부가 주는 XML 데이터를 JSON으로 바꾸는 도구
 const SafetyInfo = require('../models/SafetyInfo'); // 우리가 만든 DB 테이블 설계도(모델)

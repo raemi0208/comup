@@ -9,11 +9,34 @@ const sequelize = require('./config/db'); // DB 연결 설정을 위한 라이�
 const cron = require('node-cron');  // 자동화 업데이트를 위한 라이브러리
 const PORT = process.env.PORT || 3000; // .env에 포트가 없으면 3000번 사용       
 
+/* --------------- 스웨거 관련 서비스 ------------- */
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: '여행 안전 정보 & 커뮤니티 API',
+      version: '1.0.0',
+      description: '캡스톤 프로젝트용 API 공식 문서입니다.',
+    },
+    servers: [{ url: `http://localhost:${PORT}` }],
+  },
+  
+  apis: [
+    './routes/*.js', 
+    './models/*.js',
+  ],
+};
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 /* --------------- API 관련 서비스 ---------------*/ 
 const { fetchAndSaveSafetyData } = require('./services/SafetyService'); // 나라 정보
 const { fetchAndSaveNews } = require('./services/NewsService'); // 뉴스 서비스 
+const { fetchAndSaveSafetyStatusData } = require("./services/SafetyLevelService") // 나라 여행레벨 정보
 
 /* --------------- 기본 미들웨어 등록 --------------- */
 app.use(express.json());    // for JSON 데이터 
@@ -46,6 +69,7 @@ async function startServer() {
     cron.schedule('0 * * * *', async () => {
         console.log('🌍 국가 정보 업데이트를 시작합니다...');
         await fetchAndSaveSafetyData();
+        await fetchAndSaveSafetyStatusData(); // 여행경보(1~4단계) 업데이트!
     });
 
 
@@ -59,19 +83,17 @@ async function startServer() {
     ]; 
     let currentIndex = 0;
 
-    cron.schedule('*/10 * * * *', async () => {
-        console.log('📰 국가 뉴스 업데이트를 시작합니다...');
-        
-        // 한 번에 10개국씩만 처리 (API 부하 방지)
-        const batch = allCountries.slice(currentIndex, currentIndex + 10);
     
-        for (const country of batch) {
+    cron.schedule('0 2 * * *', async () => {
+        console.log('📰 매일 정기 국가 뉴스 업데이트를 시작합니다...');
+        
+        // 하루 한 번 실행되므로, 모든 국가를 차례대로 쭉 업데이트합니다.
+        for (const country of allCountries) {
             await fetchAndSaveNews(country);
+            // 구글 서버에 무리가 가지 않도록 국가마다 1초씩 쉬어줍니다.
+            await new Promise(resolve => setTimeout(resolve, 1000)); 
         }
-
-        // 다음 순서 정하기
-        currentIndex = (currentIndex + 10) % allCountries.length;
-        console.log(`계속해서 다음 국가들을 준비합니다. (현재 위치: ${currentIndex})`);
+        console.log('✅ 오늘의 모든 국가 뉴스 업데이트가 완료되었습니다.');
     });
 
     /* --------------- 3-4. 서버 켜지자마 실행 '초기 동기화' 로직서버가 켜지자마자 각 API에서 데이터를 가져와 DB에 채웁니다. --------------- */
@@ -79,11 +101,13 @@ async function startServer() {
     console.log('🖐️ 초기 데이터 동기화를 시작합니다...');
 
     // 외교부 정보 가져오기
-    await fetchAndSaveSafetyData(); 
+    await fetchAndSaveSafetyData();  // 공지사항 가져오기
+    await fetchAndSaveSafetyStatusData();   //여행경보 단계 가져오기
     // 뉴스 정보 가져오기 
     const initialCountries = ['덴마크', '일본', '미국', '프랑스', '영국', '독일', '태국', '베트남'];  // 초기 설정 국가
     for (const country of initialCountries) {
-        await fetchAndSaveNews(country); // 네이버 뉴스 정보 가져오기
+        await fetchAndSaveNews(country);
+        await new Promise(resolve => setTimeout(resolve, 500));
     }
  
     /* --------------- 3-5. 실제 서버 대기 상태 시작 --------------- */
@@ -94,7 +118,9 @@ async function startServer() {
   } catch (error) {
     console.error('❌ 서버 시작 중 오류 발생:', error);
   }
+  
 }
+
 
 // 4. 서버 실행!
 startServer();

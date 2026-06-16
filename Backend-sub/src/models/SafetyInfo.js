@@ -2,6 +2,29 @@
 □ SafetyInfo.js: 국가별_안전정보 테이블 모델 설계도
 */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     SafetyInfo:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         countryName:
+ *           type: string
+ *         title:
+ *           type: string
+ *         content:
+ *           type: string
+ *         wrtDt:
+ *           type: string
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ */
+
 const { DataTypes } = require('sequelize'); 
 const sequelize = require('../config/db');   
 

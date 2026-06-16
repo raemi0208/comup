@@ -2,6 +2,31 @@
 □ Post.js: POST 모델 설계도
 */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Post:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *         title:
+ *           type: string
+ *         content:
+ *           type: string
+ *         category:
+ *           type: string
+ *         views:
+ *           type: integer
+ *         userId:
+ *           type: integer
+ *         createdAt:
+ *           type: string
+ *         updatedAt:
+ *           type: string
+ */
+
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
