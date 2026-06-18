@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup, Marker } from "react-simple-maps";
-// 💡 RotateCw (새로고침 아이콘) 추가 일괄 임포트
 import { AlertTriangle, Map as MapIcon, List, RotateCw } from "lucide-react";
 import { supabase } from './supabaseClient';
 
@@ -24,7 +23,7 @@ const LEVEL_MAPPER = {
 function HomeTab({ subTab, viewMode, setViewMode }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  // 💡 새로고침을 감지하기 위한 토글 스위치 상태 추가
+  // 새로고침을 감지하기 위한 토글 스위치 상태 추가
   const [refreshTrigger, setRefreshTrigger] = useState(false);
 
   useEffect(() => {
@@ -42,9 +41,9 @@ function HomeTab({ subTab, viewMode, setViewMode }) {
       setLoading(false);
     };
     fetchData();
-  }, [subTab, refreshTrigger]); // 💡 refreshTrigger가 바뀔 때마다 데이터를 다시 불러옵니다.
+  }, [subTab, refreshTrigger]); // refreshTrigger가 바뀔 때마다 데이터를 다시 불러옵니다.
 
-  // 💡 버튼 클릭 시 호출할 새로고침 함수
+  // 버튼 클릭 시 호출할 새로고침 함수
   const handleRefresh = () => {
     setRefreshTrigger(prev => !prev);
   };
@@ -98,7 +97,7 @@ function HomeTab({ subTab, viewMode, setViewMode }) {
       {/* 3. 메인 콘텐츠 */}
       <div style={{ backgroundColor: "white", borderRadius: "24px", padding: "30px", border: "1px solid #f1f5f9", marginBottom: "30px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)" }}>
         
-        {/* 🛠️ [타이틀 영역 수정] 제목 옆에 새로고침 버튼 나란히 배치 */}
+        {/* [타이틀 영역 수정] 제목 옆에 새로고침 버튼 나란히 배치 */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
           <h3 style={{ fontWeight: "800", fontSize: "1.3rem", margin: 0 }}>
             {subTab === "overseas" ? "세계 안전 지도" : "대한민국 축제 지도"}
@@ -171,11 +170,14 @@ function HomeTab({ subTab, viewMode, setViewMode }) {
               <tbody>
                 {data.map((item, idx) => {
                   const countryName = item.country_name;
-                  const rawLevel = item.level_id || item.safety_level || item.level;
+                  const rawLevel = item.level_id || item.safety_level || item.level;//여기 매핑 명세서 업뎃되면 수정
+
+                  console.log("Supabase에서 넘어온 국가 한 장 데이터:", item);
+
                   const safetyInfo = LEVEL_MAPPER[Number(rawLevel)] || { 
                     text: rawLevel || "정보 없음", 
                     color: "#64748b" 
-                  };
+                  }; //여기도 수정해야함
 
                   return (
                     <tr key={idx} style={{ borderBottom: "1px solid #f1f5f9" }}>

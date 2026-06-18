@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Newspaper } from "lucide-react";
 import { supabase } from './supabaseClient';
 
-// 카테고리별 컬러 매핑 (DB에 색상 정보가 없다면 프론트엔드에서 관리하는 것이 깔끔합니다)
+// 카테고리별 컬러 매핑
 const TYPE_COLORS = {
   "안전": "#ef4444",
   "재난": "#f59e0b",
@@ -15,21 +15,26 @@ function NewsTab({ newsCategory, setNewsCategory }) {
   const [loading, setLoading] = useState(true);
 
   // 1. 뉴스 데이터 Fetching 함수
-  const fetchNews = async () => {
+ const fetchNews = async () => {
     setLoading(true);
-    let query = supabase.from('news').select('*').order('date', { ascending: false });
-
-    // 카테고리가 '전체'가 아닐 경우 DB 레벨에서 필터링
-    if (newsCategory !== "전체") {
-      query = query.eq('type', newsCategory);
-    }
-
-    const { data, error } = await query;
+    
+    const { data, error } = await supabase.from('News').select('*');
 
     if (error) {
       console.error("뉴스 데이터를 가져오는 중 오류 발생:", error);
+      setNews([]);
     } else {
-      setNews(data || []);
+      if (newsCategory === "전체") {
+        setNews(data || []);
+      } else {
+        const filtered = data.filter(item => {
+          if (newsCategory === "일반") {
+            return item.type === "일반" || !item.type; 
+          }
+          return item.type === newsCategory;
+        });
+        setNews(filtered);
+      }
     }
     setLoading(false);
   };
@@ -73,6 +78,11 @@ function NewsTab({ newsCategory, setNewsCategory }) {
       {/* 뉴스 카드 리스트 */}
       {loading ? (
         <div style={{ textAlign: "center", padding: "40px", color: "#64748b", fontWeight: "700" }}>불러오는 중...</div>
+      ) : news.length === 0 ? (
+        /* [예외 처리 추가] 뉴스가 아예 없을 때 화면이 텅 비어 보이지 않게 처리 */
+        <div style={{ textAlign: "center", padding: "50px", color: "#94a3b8", fontWeight: "600", backgroundColor: "#f8fafc", borderRadius: "20px", border: "1px dashed #e2e8f0" }}>
+          등록된 최신 뉴스가 없습니다.
+        </div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {news.map((item) => (
@@ -83,16 +93,16 @@ function NewsTab({ newsCategory, setNewsCategory }) {
                     backgroundColor: `${TYPE_COLORS[item.type] || "#64748b"}15`,
                     color: TYPE_COLORS[item.type] || "#64748b",
                     padding: "4px 12px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "800"
-                  }}>{item.type}</span>
-                  <span style={{ color: "#64748b", fontSize: "0.9rem", fontWeight: "600" }}>{item.country}</span>
+                  }}>{item.type || "일반"}</span>
+                  <span style={{ color: "#64748b", fontSize: "0.9rem", fontWeight: "600" }}>{item.country || "글로벌"}</span>
                 </div>
                 <div style={{ textAlign: "right", color: "#94a3b8", fontSize: "0.85rem" }}>
-                  <div>🕒 {item.date}</div>
-                  <div>{item.source}</div>
+                  <div>{item.date || item.created_at || "날짜 정보 없음"}</div>
+                  <div>{item.source || "출처 미상"}</div>
                 </div>
               </div>
-              <h3 style={{ fontSize: "1.25rem", fontWeight: "800", color: "#1e293b", marginBottom: "8px" }}>{item.title}</h3>
-              <p style={{ color: "#64748b", lineHeight: "1.6", margin: 0 }}>{item.content}</p>
+              <h3 style={{ fontSize: "1.25rem", fontWeight: "800", color: "#1e293b", marginBottom: "8px" }}>{item.title || "제목 없음"}</h3>
+              <p style={{ color: "#64748b", lineHeight: "1.6", margin: 0 }}>{item.content || "내용이 존재하지 않습니다."}</p>
             </div>
           ))}
         </div>
