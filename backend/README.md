@@ -52,26 +52,26 @@ npm start
 
 ## [3] .env Setting
 ```
-# Server Configuration
-PORT=5000
-NODE_ENV=development
+################## supabase 연결 ##################
+DATABASE_URL=postgresql://postgres.yoawffmjpsntluvscgwb:dlrhd20202@@aws-1-ap-northeast-2.pooler.supabase.com:6543/postgres
 
-# Supabase PostgreSQL Configuration
-DB_HOST=your-supabase-project-host.pooler.supabase.com
-DB_USER=postgres.your_project_id
-DB_PASSWORD=your_supabase_database_password
-DB_NAME=postgres
-DB_PORT=6543
 
-# Connection URI (If used)
-DATABASE_URL=postgresql://postgres.your_project_id:your_supabase_database_password@your-supabase-host:6543/postgres
+# 2. 서버 포트 설정 (기본값 3000)
+PORT=3000
 
-# Location Service & Maps API
-MAP_API_KEY=your_maps_api_key
+# 3. 커뮤니티 관리용 시크릿키
+# 변수명 = 아무 글자(비밀키)
+JWT_SECRET=minsu_capstone_secret_key_0504
 
-# Supabase Client SDK Keys (If required)
-SUPABASE_URL=[https://your-project-id.supabase.co](https://your-project-id.supabase.co)
-SUPABASE_ANON_KEY=your_supabase_anon_public_key
+
+################## 데이터 #################
+# 공공데이터포털 설정
+# 발급받은 '일반 인증키(Decoding)'를 따옴표 없이 입력하세요.
+SERVICE_KEY=43de0de02902684499aeeb210f2b715b0e59c304f289f5c4163338662ba28be9
+
+# 네이버 API 이용 관련
+NAVER_CLIENT_ID=p1gTZz3klNKzZVrffobY
+NAVER_CLIENT_SECRET=XRiY8JwMNp
 ```
 
 ## [4] License & Notes
