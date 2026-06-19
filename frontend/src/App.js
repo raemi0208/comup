@@ -3,7 +3,7 @@ import HomeTab from "./components/HomeTab";
 import NewsTab from "./components/NewsTab";
 import ChecklistTab from "./components/ChecklistTab";
 import CommunityTab from "./components/CommunityTab";
-import LocationTab from "./components/LocationTab"; 
+import LocationTab from "./components/LocationTab";
 import { Globe, Home, Newspaper, Users, ClipboardList, Navigation } from "lucide-react";
 import "./App.css";
 import Auth from "./components/Auth";
@@ -137,7 +137,7 @@ function App() {
     <div style={{ backgroundColor: "#f8fafc", minHeight: "100vh", paddingBottom: "60px" }}>
       {/* GNB 영역 */}
       <header style={{ backgroundColor: "white", borderBottom: "1px solid #e2e8f0", position: "sticky", top: 0, zIndex: 100 }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: "80px", padding: "0 20px" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", height: "80px", padding: "0 20px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <Globe size={28} color="#2563eb" fill="#2563eb" />
             <h1 style={{ fontSize: "1.25rem", fontWeight: "900", color: "#1e3a8a", margin: 0 }}>여행사무소</h1>
@@ -156,7 +156,7 @@ function App() {
               }}>{item.icon} {item.label}</button>
             ))}
 
-            {/* [추가됨] 로그인 상태에 따른 조건부 우측 버튼 */}
+            {/* 로그인 상태에 따른 조건부 우측 버튼 */}
             {user ? (
               <button
                 onClick={() => setMainTab("mypage")}
@@ -184,7 +184,7 @@ function App() {
 
       {/* 서브 탭 (홈 탭일 때만 표시) */}
       {mainTab === "home" && (
-        <div style={{ maxWidth: "1200px", margin: "24px auto 0", padding: "0 20px" }}>
+        <div style={{ maxWidth: "1400px", margin: "24px auto 0", padding: "0 20px" }}>
           <div style={{ backgroundColor: "#f1f5f9", padding: "6px", borderRadius: "50px", display: "flex", border: "1px solid #e2e8f0" }}>
             <button onClick={() => setSubTab("overseas")} style={{ flex: 1, padding: "12px", borderRadius: "50px", border: "none", cursor: "pointer", fontWeight: "700", backgroundColor: subTab === "overseas" ? "white" : "transparent", color: subTab === "overseas" ? "#1e293b" : "#64748b", boxShadow: subTab === "overseas" ? "0 2px 4px rgba(0,0,0,0.05)" : "none" }}>해외 여행</button>
             <button onClick={() => setSubTab("domestic")} style={{ flex: 1, padding: "12px", borderRadius: "50px", border: "none", cursor: "pointer", fontWeight: "700", backgroundColor: subTab === "domestic" ? "white" : "transparent", color: subTab === "domestic" ? "#1e293b" : "#64748b", boxShadow: subTab === "domestic" ? "0 2px 4px rgba(0,0,0,0.05)" : "none" }}>국내 축제</button>
@@ -192,16 +192,70 @@ function App() {
         </div>
       )}
 
-      {/* 메인 콘텐츠 */}
-      <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px" }}>
-        {mainTab === "news" && <NewsTab newsCategory={newsCategory} setNewsCategory={setNewsCategory} />}
-        {mainTab === "community" && <CommunityTab posts={posts} setPosts={setPosts} searchQuery={searchQuery} setSearchQuery={setSearchQuery} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} newPost={newPost} setNewPost={setNewPost} />}
-        {mainTab === "checklist" && <ChecklistTab checklist={checklist} setChecklist={setChecklist} newItemName={newItemName} setNewItemName={setNewItemName} newItemCategory={newItemCategory} setNewItemCategory={setNewItemCategory} />}
-        {mainTab === "home" && <HomeTab subTab={subTab} viewMode={viewMode} setViewMode={setViewMode} renderStats={renderStats} overseasData={overseasData} festivals={festivals} />}
-        {mainTab === "location" && <LocationTab user={user} roomId="우리들의 안전 여행 방" />}
-        
-        {mainTab === "auth" && <Auth />}
-        {mainTab === "mypage" && <MyPage user={user} />}
+      <main style={{
+        maxWidth: "1400px",
+        margin: "0 auto",
+        padding: "24px",
+        display: "flex",
+        gap: "30px",
+        alignItems: "flex-start"
+      }}>
+
+        {/* 1. [좌측] 세로 직사각형 고정 광고 영역 (바구니 시작) */}
+        <aside style={{
+          width: "260px",  
+          minWidth: "180px",
+          position: "sticky",
+          top: "104px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px"
+        }}>
+          <div style={{
+            backgroundColor: "white",
+            borderRadius: "24px",
+            padding: "24px",
+            border: "1px solid #e2e8f0",
+            boxShadow: "0 4px 6px -1px rgba(0,0,0,0.05)",
+            textAlign: "center"
+          }}>
+            {/* 세로로 긴 직사각형 배너 공간 */}
+            <div style={{
+              height: "450px",
+              backgroundColor: "#f1f5f9",
+              borderRadius: "16px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#94a3b8",
+              fontWeight: "700",
+              fontSize: "0.9rem",
+              border: "2px dashed #cbd5e1",
+              marginBottom: "16px"
+            }}>
+              ADVERTISEMENT
+            </div>
+            <h4 style={{ margin: "0 0 6px 0", color: "#1e293b", fontWeight: "800", fontSize: "1rem" }}>
+              안전한 여행의 시작 ✈️
+            </h4>
+            <p style={{ margin: 0, color: "#64748b", fontSize: "0.85rem", fontWeight: "600", lineHeight: "1.4" }}>
+              최저가 여행자 보험 비교부터 가입까지 한번에 해결하세요!
+            </p>
+          </div>
+        </aside>
+
+        {/* 2. [우측] 기존 메인 컴포넌트 렌더링 영역 */}
+        <div style={{ flex: 1, minWidth: "0" }}>
+          {mainTab === "news" && <NewsTab newsCategory={newsCategory} setNewsCategory={setNewsCategory} />}
+          {mainTab === "community" && <CommunityTab posts={posts} setPosts={setPosts} searchQuery={searchQuery} setSearchQuery={setSearchQuery} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} newPost={newPost} setNewPost={setNewPost} />}
+          {mainTab === "checklist" && <ChecklistTab checklist={checklist} setChecklist={setChecklist} newItemName={newItemName} setNewItemName={setNewItemName} newItemCategory={newItemCategory} setNewItemCategory={setNewItemCategory} />}
+          {mainTab === "home" && <HomeTab subTab={subTab} viewMode={viewMode} setViewMode={setViewMode} renderStats={renderStats} overseasData={overseasData} festivals={festivals} />}
+          {mainTab === "location" && <LocationTab user={user} roomId="우리들의 안전 여행 방" />}
+
+          {mainTab === "auth" && <Auth />}
+          {mainTab === "mypage" && <MyPage user={user} />}
+        </div>
+
       </main>
     </div>
   );
