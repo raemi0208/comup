@@ -6,7 +6,7 @@
 
 const express = require('express');
 const router = express.Router();
-const checklistController = require('../controllers/checklistController');
+const checklistController = require('../controllers/ChecklistController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 // 인증된 사용자의 고유 체크리스트 전체 조회
