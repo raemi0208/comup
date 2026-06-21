@@ -34,7 +34,7 @@ function Auth({ setMainTab, setUser }) {
 
     // 상태 플래그에 따른 엔드포인트 및 요청 세그먼트 가변 라우팅
     const endpoint = isSignUp ? "register" : "login";
-    const url = `http://localhost:3000/api/auth/${endpoint}`;
+    const url = `${process.env.REACT_APP_API_URL}/api/auth/${endpoint}`
 
     const payload = isSignUp
       ? { email, password, nickname }
