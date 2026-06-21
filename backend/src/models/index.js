@@ -22,7 +22,7 @@ const BadgeDef = require('./BadgeDef')(sequelize, DataTypes);
 const PostLike = require('./PostLike')(sequelize, DataTypes);
 const PostView = require('./PostView')(sequelize, DataTypes);
 
-const Checklist = require('./Checklist')(sequelize, DataTypes);
+const Checklist = require('./CheckList')(sequelize, DataTypes);
 
 
 // ==========================================

@@ -6,7 +6,7 @@
 
 const express = require('express');
 const router = express.Router();
-const mypageController = require('../controllers/mypageController');
+const mypageController = require('../controllers/MypageController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 // 인증 세션 기반의 현재 사용자 프로필 데이터 및 활동 통계(UserStats) 통합 조회

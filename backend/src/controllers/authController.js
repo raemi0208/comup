@@ -11,7 +11,7 @@ require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const { User } = require('../models');
 const bcrypt = require('bcrypt');         // 암호화 라이브러리
 const jwt = require('jsonwebtoken');      // 토큰 라이브러리
-const { SERVER_INSTANCE_ID } = require('../config/serverInstance'); // [추가] 서버 인스턴스 식별값
+const { SERVER_INSTANCE_ID } = require('../config/Serverinstance'); // [추가] 서버 인스턴스 식별값
 
 // (1) [회원가입] 요청 -> (1-1) 요청 본문 파싱 -> (1-2) 비밀번호 암호화 -> (1-3) 유저 정보 등록 -> (1-4) 응답 (회원가입 성공 여부)
 exports.register = async (req, res) => {

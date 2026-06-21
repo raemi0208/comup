@@ -34,7 +34,7 @@ const TAB_TO_PATH = {
 };
 
 // [추가] 백엔드 주소 (배포 환경 변수 혹은 로컬 테스트용 3000번 포트)
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:3000";
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:3000";
 
 function App() {
   const navigate = useNavigate();

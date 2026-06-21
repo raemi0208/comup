@@ -68,8 +68,8 @@ const { fetchAndSaveSafetyStatusData } = require("./services/SafetyLevelService"
  * ========================================== */
 const postRoutes = require('./routes/postRoutes'); 
 const authRoutes = require('./routes/authRoutes'); 
-const mypageRoutes = require('./routes/mypageRoutes'); 
-const checklistRoutes = require('./routes/checklistRoutes'); 
+const mypageRoutes = require('./routes/MyPageRoutes'); 
+const checklistRoutes = require('./routes/ChecklistRoutes'); 
 
 app.use('/api/posts', postRoutes); 
 app.use('/api/auth', authRoutes); 

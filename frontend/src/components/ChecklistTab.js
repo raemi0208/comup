@@ -9,7 +9,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { ClipboardList, Trash2 } from "lucide-react";
 
 // 애플리케이션 코어 데이터 동기화 엔드포인트 베이스 URL
-const API_BASE = "http://localhost:3000/api";
+const API_BASE = `${process.env.REACT_APP_API_URL}/api`;
 
 /**
  * HTTP 클라이언트 요청 헤더 내 Bearer 인증 컨텍스트 주입 유틸리티 함수입니다.

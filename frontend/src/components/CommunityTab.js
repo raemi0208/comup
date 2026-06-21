@@ -8,7 +8,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Users, Heart, MessageCircle, Eye, Trash2, Send, ChevronDown, ChevronUp, Pencil } from "lucide-react";
 
-const API_BASE = "http://localhost:3000/api";
+const API_BASE = `${process.env.REACT_APP_API_URL}/api`;
 
 /**
  * @description HTTP 요청 헤더에 인가용 Bearer 토큰을 주입하는 유틸리티입니다.

@@ -10,7 +10,7 @@ import { FaPencilAlt, FaCamera, FaUserCircle, FaCheck, FaTimes, FaSignOutAlt } f
 import { Badge } from "./Badge";
 
 // 백엔드 주소 (배포 환경 변수 혹은 로컬 테스트용 3000번 포트)
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:3000";
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:3000";
 
 // 이 앱은 Supabase Auth가 아니라 자체 JWT 인증을 사용합니다.
 // 로그인 시 authController.js가 발급한 토큰이 localStorage("token")에 저장되어 있고,
