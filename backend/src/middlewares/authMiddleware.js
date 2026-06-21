@@ -8,7 +8,7 @@
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 const jwt = require('jsonwebtoken');
-const { SERVER_INSTANCE_ID } = require('../config/serverInstance'); // [추가] 서버 인스턴스 식별값
+const { SERVER_INSTANCE_ID } = require('../config/Serverinstance'); // [추가] 서버 인스턴스 식별값
 
 module.exports = (req, res, next) => {
   // [1] 헤더에서 토큰을 가져오기
